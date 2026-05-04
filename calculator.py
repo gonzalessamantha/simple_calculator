@@ -1,33 +1,38 @@
 import tkinter as tk
 
-calculation = ()
+calculation = ""
 
 def add_to_calculation(symbol):
     global calculation
-    calculation = calculation + symbol
+    calculation += str(symbol)
     text_result.delete(1.0, tk.END)
     text_result.insert(1.0, calculation)
 
-def evaluate_symbol(symbol):
+def evaluate_symbol():
     global calculation
     try:
-        calculation = str(eval(calculation))
+        print(calculation)
+        result = str(eval(calculation))
+        if result == result.rstrip('.0'):
+            result = result.rstrip('.0')
+        calculation = result
         text_result.delete(1.0, tk.END)
         text_result.insert(1.0, calculation)
-    except ValueError:
+    except:
         clear_field()
         text_result.insert(1.0, "Syntax Error")
 
-def clear_field(symbol):
+def clear_field():
     global calculation
     calculation = ""
-    text_result.delete(1.0, "END")
+    text_result.delete(1.0, tk.END)
 
 root = tk.Tk()
-root.geometry("300x275")
+root.geometry("300x285")
+root.title("Simple Calculator ng mga Maaangas")
 
 text_result = tk.Text(root, width=16, height=2, font=("Arial", 24))
-text_result.grid(columnspan=5)
+text_result.grid(columnspan=5, row=0)
 
 # buttons for the calculator
 button_one = tk.Button(root, text="1", command=lambda: add_to_calculation(1), width=5, font=("Arial", 15))
@@ -54,10 +59,19 @@ button_plus = tk.Button(root, text="+", command=lambda: add_to_calculation("+"),
 button_plus.grid(column=4, row=2)
 button_minus = tk.Button(root, text="-", command=lambda: add_to_calculation("-"), width=5, font=("Arial", 15))
 button_minus.grid(column=4, row=3)
-button_multiplication = tk.Button(root, text="*", command=lambda: add_to_calculation("*"), width=5, font=("Arial", 15))
+button_multiplication = tk.Button(root, text="×", command=lambda: add_to_calculation("*"), width=5, font=("Arial", 15))
 button_multiplication.grid(column=4, row=4)
-button_division = tk.Button(root, text="/", command=lambda: add_to_calculation("/"), width=5, font=("Arial", 15))
+button_division = tk.Button(root, text="÷", command=lambda: add_to_calculation("/"), width=5, font=("Arial", 15))
 button_division.grid(column=4, row=5)
-
+# adding brackets for the function PMDAS
+button_open_paren = tk.Button(root, text="(", command=lambda: add_to_calculation("("), width=5, font=("Arial", 15))
+button_open_paren.grid(column=1, row=5)
+button_close_paren = tk.Button(root, text=")", command=lambda: add_to_calculation(")"), width=5, font=("Arial", 15))
+button_close_paren.grid(column=3, row=5)
+# equal and clearing buttons
+button_equal = tk.Button(root, text="=", command=lambda: evaluate_symbol(), width=12, font=("Arial", 15))
+button_equal.grid(column=3, row=6, columnspan=2)
+button_clear = tk.Button(root, text="C", command=clear_field, width=12, font=("Arial", 15))
+button_clear.grid(column=1, row=6, columnspan=2)
 
 root.mainloop()
