@@ -10,21 +10,9 @@ class MaangasNaCalculator(tk.Tk):
         self.configure(bg="#FFB3B3")
         self.current_step = 0
         self.operation = ""
-        self.number1 = 0
-        self.number2 = 0
-        self.result = 0
+        self.calculation = ""
+        self.grid(column=0, row=0, sticky="nsew")
         self.create_widgets()
-        self.show_step_1()
-
-    def create_widgets(self):
-        title = tk.Label(self, text="Maangas Na Calculator", font=("Arial", 20, "bold"), bg='#f0f0f0', fg='#2c3e50')
-        title.pack(pady=20)
-
-        self.display_frame = tk.Frame(self, bg='white', relief='ridge', bd=3)
-        self.display_frame.pack(pady=20, padx=30, fill='x')
-
-        self.op_frame = tk.Frame(self.display_frame, bg='white')
-        self.op_frame.pack(pady=20)
 
     def add_to_calculation(self, symbol):
         self.calculation += str(symbol)
